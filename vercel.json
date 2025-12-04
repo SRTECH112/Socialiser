@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "buildCommand": "prisma generate && prisma migrate deploy && next build",
+  "installCommand": "npm install",
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_APP_URL": "https://your-app.vercel.app"
+    }
+  }
+}
