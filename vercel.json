@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "prisma generate && prisma migrate dev --name init --create-only && prisma migrate deploy && next build",
+  "buildCommand": "prisma generate && next build",
   "installCommand": "npm install",
   "build": {
     "env": {
