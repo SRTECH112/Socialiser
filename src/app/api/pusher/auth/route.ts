@@ -1,3 +1,4 @@
+// src/app/api/pusher/auth/route.ts
 import { NextResponse } from 'next/server';
 import { getAuthSession } from '@/lib/auth';
 import { pusherServer } from '@/lib/pusher';
@@ -18,14 +19,13 @@ export async function POST(request: Request) {
     }
 
     // Check if pusherServer is initialized
-    const server = pusherServer;
-    if (!server) {
-      console.error('Pusher server not initialized');
+    if (!pusherServer) {
+      console.error('Pusher server not initialized - check environment variables');
       return new NextResponse('Server configuration error', { status: 500 });
     }
 
-    // Authenticate the user for the channel
-    const authResponse = server.authenticateUser(socketId, {
+    // TypeScript now knows pusherServer is not null here
+    const authResponse = (pusherServer as any).authenticateUser(socketId, {
       id: session.user.id,
       email: session.user.email,
       name: session.user.name || 'Anonymous',
