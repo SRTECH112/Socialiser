@@ -18,13 +18,14 @@ export async function POST(request: Request) {
     }
 
     // Check if pusherServer is initialized
-    if (!pusherServer) {
+    const server = pusherServer;
+    if (!server) {
       console.error('Pusher server not initialized');
       return new NextResponse('Server configuration error', { status: 500 });
     }
 
     // Authenticate the user for the channel
-    const authResponse = pusherServer.authenticateUser(socketId, {
+    const authResponse = server.authenticateUser(socketId, {
       id: session.user.id,
       email: session.user.email,
       name: session.user.name || 'Anonymous',
