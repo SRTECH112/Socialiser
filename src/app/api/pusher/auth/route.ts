@@ -9,11 +9,18 @@ export async function POST(request: Request) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    const socketId = (await request.formData()).get('socket_id') as string;
-    const channel = (await request.formData()).get('channel_name') as string;
+    const formData = await request.formData();
+    const socketId = formData.get('socket_id') as string;
+    const channel = formData.get('channel_name') as string;
 
     if (!socketId || !channel) {
       return new NextResponse('Missing socket_id or channel_name', { status: 400 });
+    }
+
+    // Check if pusherServer is initialized
+    if (!pusherServer) {
+      console.error('Pusher server not initialized');
+      return new NextResponse('Server configuration error', { status: 500 });
     }
 
     // Authenticate the user for the channel
