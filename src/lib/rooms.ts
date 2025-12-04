@@ -1,8 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import type { RoomSummary } from "@/types/room";
 
-type RoomWithCount = Awaited<ReturnType<typeof prisma.room.findMany>>[number];
-
 export async function getRoomSummaries(userId: string): Promise<RoomSummary[]> {
   const rooms = await prisma.room.findMany({
     orderBy: { createdAt: "desc" },
@@ -15,7 +13,7 @@ export async function getRoomSummaries(userId: string): Promise<RoomSummary[]> {
     },
   });
 
-  return rooms.map((room: RoomWithCount) => ({
+  return rooms.map((room: any) => ({
     id: room.id,
     name: room.name,
     memberCount: room._count.users,
