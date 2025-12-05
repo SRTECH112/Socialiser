@@ -6,7 +6,7 @@ import { getAuthSession } from "@/lib/auth";
 import { getRoomWithMembership } from "@/lib/rooms";
 
 interface RoomPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function RoomDetailPage({ params }: RoomPageProps) {
@@ -15,7 +15,7 @@ export default async function RoomDetailPage({ params }: RoomPageProps) {
     redirect("/login");
   }
 
-  const { id } = params;
+  const { id } = await params;
 
   const room = await getRoomWithMembership(id, session.user.id);
   if (!room) {
